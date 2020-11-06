@@ -2,128 +2,191 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
+        <h1>Spoteezer</h1>
       </v-col>
     </v-row>
+    <v-row>
+      <v-card
+        class="d-block"
+        style="background-color:#2C2F33;  color: white; width:350px"
+        elevation="2"
+      >
+        <v-card-title style="padding:0; margin:0;">
+          <v-img :src="currentFile.cover" contain></v-img>
+        </v-card-title>
 
-    <h1>Hello la promo Ynov !</h1>
-    <h3>Bienvenue sur Ynov Songs :)</h3>
-
-    <button @click="loaded = true">Chargement des Todos</button>
-    <Todos v-if="loaded"></Todos>
-
-    <p>Nb de count: {{ count }}</p>
-    <button @click="add" class="btn">Ajouter une plus !</button>
-    <button @click="remove" class="btn">Diminuer une plus !</button>
-
-    <p v-if="count >= 10">Win!</p>
-    <p v-else-if="count > 5">Win!!!!!!</p>
-    <p v-else>Loose!</p>
-
-    <h1 v-show="count > 10">Hello!</h1>
-
-    <h4>Prénom:</h4>
-
-    <input v-model="nbDisplay" type="range" min="0" max="6" />
-    <input
-      v-model="search"
-      type="search"
-      required
-      placeholder="recherche un prénom"
-    />
-    <p :class="colorNb">
-      Nb de prénom<span v-if="prenoms.length > 1">s</span>: {{ prenoms.length }}
-    </p>
-    <input
-      v-model="prenom"
-      type="text"
-      required
-      placeholder="Ajouter un prénom"
-    />
-    <button @click="ajouterPrenom">Ajouter</button>
-    <p>Nb de stars: {{ nbLike }} likes</p>
-    <p v-if="goodColor">Vous êtes une star !</p>
-    <Liste :filterPrenoms="filterPrenoms">
-      <template v-slot:header>
-        <h1>Liste des {{ filterPrenoms.length }} prénoms</h1>
-      </template>
-    </Liste>
+        <v-row class="text-center">
+          <v-col cols="12">
+            {{ currentFile.title }}
+          </v-col>
+        </v-row>
+        <v-row class="text-center">
+          <Music
+            :inputFile="currentFile"
+            color="success"
+            @musicEnded="next"
+            @previousMusic="previous"
+            @nextMusic="next"
+          ></Music>
+        </v-row>
+      </v-card>
+      <v-card class="d-block card-spoteezer" elevation="2">
+        <v-card-title>
+          <span class="text-center" style="width:100%">Liste de lecture</span>
+          <span style="width:100%; align-items:right">
+            <button @click="randomPlaying">
+              <v-icon :color="isRandom ? 'green' : 'white'"
+                >mdi-strategy</v-icon
+              >
+            </button>
+            <button @click="normalPlaying">
+              <v-icon :color="isRandom ? 'white' : 'green'"
+                >mdi-playlist-play</v-icon
+              >
+            </button>
+          </span>
+        </v-card-title>
+        <v-list class="card-spoteezer">
+          <v-list-item v-for="item in musics" :key="item.id"
+            ><button style="margin-right:5px;" @click="playMusic(item.id)">
+              <v-icon color="white">
+                mdi-play-circle-outline
+              </v-icon>
+            </button>
+            <span :class="item.isPlaying ? 'text-green' : 'text-white'">{{
+              item.title
+            }}</span></v-list-item
+          >
+        </v-list>
+      </v-card>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-import Liste from "./Liste"; // 1 import
-import Todos from "./Todos";
+import Music from "./Music";
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
   },
-  data: function () {
+  data: function() {
     return {
-      loaded: false,
-      count: 0,
-      colorNb: "blue",
-      prenom: "",
-      search: "",
-      nbDisplay: 3,
-      prenoms: ["Steven", "Julien", "Guillaume", "Baptiste"],
+      musics: [
+        {
+          id: 1,
+          title: "Hail to the King - Avenged Sevenfold",
+          url: require("../assets/musics/hail.mp3"),
+          cover: require("../assets/musics/hail.jpg"),
+          isPlaying: true,
+        },
+        {
+          id: 2,
+          title: "Nightmare - Avenged Sevenfold",
+          url: require("../assets/musics/nightmare.mp3"),
+          cover: require("../assets/musics/nightmare.jpg"),
+        },
+        {
+          id: 3,
+          title: "A Little Piece of Heaven - Avenged Sevenfold",
+          url: require("../assets/musics/heaven.mp3"),
+          cover: require("../assets/musics/heaven.jpg"),
+        },
+        {
+          id: 4,
+          title: "The Trooper - Iron Maiden",
+          url: require("../assets/musics/trooper.mp3"),
+          cover: require("../assets/musics/trooper.jpg"),
+        },
+        {
+          id: 5,
+          title: "Ghost Love Score - Live at Wacken - Nightwish",
+          url: require("../assets/musics/ghost.mp3"),
+          cover: require("../assets/musics/ghost.jpg"),
+        },
+        {
+          id: 6,
+          title: "Blue Orchid - The White Stripes",
+          url: require("../assets/musics/orchid.mp3"),
+          cover: require("../assets/musics/orchid.jpg"),
+        },
+        {
+          id: 7,
+          title: "In the end - Linkin Park",
+          url: require("../assets/musics/end.mp3"),
+          cover: require("../assets/musics/end.jpg"),
+        },
+      ],
+      currentFile: null,
+      index: 0,
+      isRandom: false,
     };
   },
+  created() {
+    this.loadMusic();
+  },
   methods: {
-    load() {
-      this.loaded = true;
-    },
-    ajouterPrenom() {
-      this.prenoms.push(this.prenom);
-      this.prenom = "";
-      if (this.prenoms.length >= 15) {
-        this.colorNb = "red";
+    previous: function() {
+      this.musics[this.index].isPlaying = false;
+      if (this.index > 1) {
+        this.index--;
+      } else {
+        this.index = this.musics.length - 1;
       }
+      this.loadMusic();
     },
-    add() {
-      this.count++;
+    next: function() {
+      this.musics[this.index].isPlaying = false;
+      if (this.isRandom) {
+        this.index = Math.floor(Math.random() * Math.floor(this.musics.length));
+      } else {
+        if (this.index < this.musics.length - 1) {
+          this.index++;
+        } else {
+          this.index = 0;
+        }
+      }
+      this.loadMusic();
     },
-    remove() {
-      this.count--;
+    loadMusic: function() {
+      this.currentFile = this.musics[this.index];
+      this.musics[this.index].isPlaying = true;
+    },
+    playMusic: function(idToFind) {
+      this.musics[this.index].isPlaying = false;
+      this.index = this.musics.findIndex((x) => x.id === idToFind);
+      this.currentFile = this.musics[this.index];
+      this.musics[this.index].isPlaying = true;
+    },
+    normalPlaying: function() {
+      this.isRandom = false;
+    },
+    randomPlaying: function() {
+      this.isRandom = true;
     },
   },
   components: {
-    Liste, // 2 use
-    Todos,
+    Music,
   },
-  computed: {
-    nbLike() {
-      return this.prenoms.length * this.count;
-    },
-    goodColor() {
-      return this.nbLike > 30;
-    },
-    filterPrenoms() {
-      if (this.search.length < 3) {
-        return this.prenoms;
-      } else {
-        return this.prenoms.filter((elt) => elt.includes(this.search));
-      }
-    },
-  },
-  watch: {
-    nbLike(val) {
-      if (val > 40) {
-        this.prenoms = [];
-      }
-    },
-    nbDisplay(val) {
-      this.prenoms = this.prenoms.slice(0, val);
-      if (val == 0) {
-        this.prenoms = ["Steven", "Julien", "Guillaume", "Baptiste"];
-      }
-    },
-  },
+  computed: {},
+  watch: {},
 };
 </script>
+<style scoped>
+li {
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+.text-green {
+  color: green;
+}
+.text-white {
+  color: white;
+}
+
+.card-spoteezer {
+  background-color: #2c2f33;
+  color: white;
+  width: 350px;
+}
+</style>
