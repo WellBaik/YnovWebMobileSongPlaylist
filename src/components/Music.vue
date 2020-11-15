@@ -1,6 +1,8 @@
 <template>
   <div style="width:100%">
     <v-row class="text-center">
+      <knob-control :min="0" :max="11" v-model="volume"></knob-control>
+
       <v-col cols="2"></v-col>
       <v-col cols="1">
         <button @click="volMinus">
