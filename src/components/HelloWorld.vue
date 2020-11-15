@@ -46,18 +46,61 @@
             </button>
           </span>
         </v-card-title>
-        <v-list class="card-spoteezer">
-          <v-list-item v-for="item in musics" :key="item.id"
-            ><button style="margin-right:5px;" @click="playMusic(item.id)">
-              <v-icon color="white">
-                mdi-play-circle-outline
-              </v-icon>
-            </button>
-            <span :class="item.isPlaying ? 'text-green' : 'text-white'">{{
-              item.title
-            }}</span></v-list-item
-          >
-        </v-list>
+        <table style="width:100%; border-collapse: collapse">
+          <thead>
+            <tr>
+              <th class="bb"></th>
+              <th class="bb bl text-left">
+                Titre
+              </th>
+              <th class="bb bl text-left">
+                Artiste
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td class="bl">
+                <input
+                  style="background-color:white; width:90%; font-size:12px"
+                  type="text"
+                  placeholder="Titre ..."
+                  v-model="sTitle"
+                  @keyup="searchTitle"
+                />
+              </td>
+              <td class="bl">
+                <input
+                  style="background-color:white; width:90%; font-size:12px"
+                  type="text"
+                  placeholder="Artiste ..."
+                  v-model="sArtist"
+                  @keyup="searchArtist"
+                />
+              </td>
+            </tr>
+            <tr v-for="item in musicsFiltered" :key="item.id">
+              <td>
+                <button style="margin-right:5px;" @click="playMusic(item.id)">
+                  <v-icon color="white">
+                    mdi-play-circle-outline
+                  </v-icon>
+                </button>
+              </td>
+              <td class="bl text-left" style="font-size:12px">
+                <span :class="item.isPlaying ? 'text-green' : 'text-white'">
+                  {{ item.title }}
+                </span>
+              </td>
+              <td class="bl text-left" style="font-size:12px">
+                <span :class="item.isPlaying ? 'text-green' : 'text-white'">
+                  {{ getArtist(item.artist).name }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </v-card>
     </v-row>
   </v-container>
@@ -75,55 +118,93 @@ export default {
       musics: [
         {
           id: 1,
-          title: "Hail to the King - Avenged Sevenfold",
+          title: "Hail to the King",
+          artist: 1,
           url: require("../assets/musics/hail.mp3"),
           cover: require("../assets/musics/hail.jpg"),
           isPlaying: true,
         },
         {
           id: 2,
-          title: "Nightmare - Avenged Sevenfold",
+          title: "Nightmare",
+          artist: 1,
           url: require("../assets/musics/nightmare.mp3"),
           cover: require("../assets/musics/nightmare.jpg"),
         },
         {
           id: 3,
-          title: "A Little Piece of Heaven - Avenged Sevenfold",
+          title: "A Little Piece of Heaven",
+          artist: 1,
           url: require("../assets/musics/heaven.mp3"),
           cover: require("../assets/musics/heaven.jpg"),
         },
         {
           id: 4,
-          title: "The Trooper - Iron Maiden",
+          title: "The Trooper",
+          artist: 2,
           url: require("../assets/musics/trooper.mp3"),
           cover: require("../assets/musics/trooper.jpg"),
         },
         {
           id: 5,
-          title: "Ghost Love Score - Live at Wacken - Nightwish",
+          title: "Ghost Love Score - Live at Wacken",
+          artist: 3,
           url: require("../assets/musics/ghost.mp3"),
           cover: require("../assets/musics/ghost.jpg"),
         },
         {
           id: 6,
-          title: "Blue Orchid - The White Stripes",
+          title: "Blue Orchid",
+          artist: 4,
           url: require("../assets/musics/orchid.mp3"),
           cover: require("../assets/musics/orchid.jpg"),
         },
         {
           id: 7,
-          title: "In the end - Linkin Park",
+          title: "In the end",
+          artist: 5,
           url: require("../assets/musics/end.mp3"),
           cover: require("../assets/musics/end.jpg"),
+        },
+      ],
+      artists: [
+        {
+          id: 1,
+          name: "Avenged Sevenfold",
+          informations: "",
+        },
+        {
+          id: 2,
+          name: "Iron Maiden",
+          informations: "",
+        },
+        {
+          id: 3,
+          name: "Nightwish",
+          informations: "",
+        },
+        {
+          id: 4,
+          name: "The Whites Stripes",
+          informations: "",
+        },
+        {
+          id: 5,
+          name: "Linkin Park",
+          informations: "",
         },
       ],
       currentFile: null,
       index: 0,
       isRandom: false,
+      musicsFiltered: [],
+      sTitle: "",
+      sArtist: "",
     };
   },
   created() {
     this.loadMusic();
+    this.musicsFiltered = this.musics;
   },
   methods: {
     previous: function() {
@@ -164,6 +245,41 @@ export default {
     randomPlaying: function() {
       this.isRandom = true;
     },
+    getArtist: function(artistId) {
+      return this.artists.find((x) => x.id === artistId);
+    },
+    searchTitle: function() {
+      this.musicsFiltered = [];
+      if (this.sTitle.length > 0) {
+        for (var i = 0; i < this.musics.length; i++) {
+          if (
+            this.musics[i].title
+              .toUpperCase()
+              .includes(this.sTitle.toUpperCase())
+          ) {
+            this.musicsFiltered.push(this.musics[i]);
+          }
+        }
+      } else {
+        this.musicsFiltered = this.musics;
+      }
+    },
+    searchArtist: function() {
+      this.musicsFiltered = [];
+      if (this.sArtist.length > 0) {
+        for (var i = 0; i < this.musics.length; i++) {
+          if (
+            this.getArtist(this.musics[i].artist)
+              .name.toUpperCase()
+              .includes(this.sArtist.toUpperCase())
+          ) {
+            this.musicsFiltered.push(this.musics[i]);
+          }
+        }
+      } else {
+        this.musicsFiltered = this.musics;
+      }
+    },
   },
   components: {
     Music,
@@ -183,10 +299,15 @@ li {
 .text-white {
   color: white;
 }
-
 .card-spoteezer {
   background-color: #2c2f33;
   color: white;
   width: 350px;
+}
+.bb {
+  border-bottom: 1px solid white;
+}
+.bl {
+  border-left: 1px solid white;
 }
 </style>
