@@ -44,6 +44,31 @@
                 >mdi-playlist-play</v-icon
               >
             </button>
+            <button>
+              <v-dialog v-model="dialog" persistent max-width="290">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn v-bind="attrs" v-on="on" icon>
+                    <v-icon color="green">mdi-heart</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="headline">
+                    Chansons favorites
+                  </v-card-title>
+                  <v-card-text>
+                    <span v-for="item in musics" :key="item.id">
+                      <span v-if="item.isFav">{{ item.title }}<br /></span>
+                    </span>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="dialog = false">
+                      Ok
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </button>
           </span>
         </v-card-title>
         <table style="width:100%; border-collapse: collapse">
@@ -79,6 +104,7 @@
                   @keyup="searchArtist"
                 />
               </td>
+              <td class="bl"></td>
             </tr>
             <tr v-for="item in musicsFiltered" :key="item.id">
               <td>
@@ -97,6 +123,16 @@
                 <span :class="item.isPlaying ? 'text-green' : 'text-white'">
                   {{ getArtist(item.artist).name }}
                 </span>
+              </td>
+              <td class="bl">
+                <button
+                  style="margin-right:5px;"
+                  @click="item.isFav = !item.isFav"
+                >
+                  <v-icon :color="item.isFav ? 'green' : 'white'">
+                    mdi-heart
+                  </v-icon>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -123,6 +159,7 @@ export default {
           url: require("../assets/musics/hail.mp3"),
           cover: require("../assets/musics/hail.jpg"),
           isPlaying: true,
+          isFav: true,
         },
         {
           id: 2,
@@ -130,6 +167,7 @@ export default {
           artist: 1,
           url: require("../assets/musics/nightmare.mp3"),
           cover: require("../assets/musics/nightmare.jpg"),
+          isFav: false,
         },
         {
           id: 3,
@@ -137,6 +175,7 @@ export default {
           artist: 1,
           url: require("../assets/musics/heaven.mp3"),
           cover: require("../assets/musics/heaven.jpg"),
+          isFav: false,
         },
         {
           id: 4,
@@ -144,6 +183,7 @@ export default {
           artist: 2,
           url: require("../assets/musics/trooper.mp3"),
           cover: require("../assets/musics/trooper.jpg"),
+          isFav: false,
         },
         {
           id: 5,
@@ -151,6 +191,7 @@ export default {
           artist: 3,
           url: require("../assets/musics/ghost.mp3"),
           cover: require("../assets/musics/ghost.jpg"),
+          isFav: false,
         },
         {
           id: 6,
@@ -158,6 +199,7 @@ export default {
           artist: 4,
           url: require("../assets/musics/orchid.mp3"),
           cover: require("../assets/musics/orchid.jpg"),
+          isFav: false,
         },
         {
           id: 7,
@@ -165,6 +207,7 @@ export default {
           artist: 5,
           url: require("../assets/musics/end.mp3"),
           cover: require("../assets/musics/end.jpg"),
+          isFav: false,
         },
       ],
       artists: [
@@ -200,6 +243,7 @@ export default {
       musicsFiltered: [],
       sTitle: "",
       sArtist: "",
+      dialog: false,
     };
   },
   created() {
