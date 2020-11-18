@@ -1,37 +1,40 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HelloWorld from '../components/HelloWorld.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HelloWorld from "../components/HelloWorld.vue";
+import Artist from "../components/Artist.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
+    path: "/",
+    name: "HelloWorld",
+    component: HelloWorld,
   },
   {
-    path: '/about',
-    name: 'About',
+    path: "/about",
+    name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path: '/portfolio',
-    name: 'Portfolio',
+    path: "/artist/:id",
+    name: "Artist",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Portfolio.vue')
-  }
-]
+    //component: () => import(/* webpackChunkName: "about" */ '../views/Artist.vue')
+    component: Artist,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

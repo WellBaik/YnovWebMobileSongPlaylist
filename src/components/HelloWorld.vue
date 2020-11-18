@@ -8,7 +8,7 @@
     <v-row>
       <v-card
         class="d-block"
-        style="background-color:#2C2F33;  color: white; width:350px"
+        style="background-color:#2C2F33;  color: white; width:350px; margin-left:auto; margin-right:auto"
         elevation="2"
       >
         <v-card-title style="padding:0; margin:0;">
@@ -30,7 +30,11 @@
           ></Music>
         </v-row>
       </v-card>
-      <v-card class="d-block card-spoteezer" elevation="2">
+      <v-card
+        class="d-block card-spoteezer"
+        style="margin-left:auto; margin-right:auto"
+        elevation="2"
+      >
         <v-card-title>
           <span class="text-center" style="width:100%">Liste de lecture</span>
           <span style="width:100%; align-items:right">
@@ -121,7 +125,10 @@
               </td>
               <td class="bl text-left" style="font-size:12px">
                 <span :class="item.isPlaying ? 'text-green' : 'text-white'">
-                  {{ getArtist(item.artist).name }}
+                  <router-link
+                    :to="{ name: 'Artist', params: { id: item.artist } }"
+                    >{{ getArtist(item.artist).name }}
+                  </router-link>
                 </span>
               </td>
               <td class="bl">
@@ -144,6 +151,8 @@
 
 <script>
 import Music from "./Music";
+import { musics, artists } from "../assets/variables.js";
+
 export default {
   name: "HelloWorld",
   props: {
@@ -151,92 +160,8 @@ export default {
   },
   data: function() {
     return {
-      musics: [
-        {
-          id: 1,
-          title: "Hail to the King",
-          artist: 1,
-          url: require("../assets/musics/hail.mp3"),
-          cover: require("../assets/musics/hail.jpg"),
-          isPlaying: true,
-          isFav: true,
-        },
-        {
-          id: 2,
-          title: "Nightmare",
-          artist: 1,
-          url: require("../assets/musics/nightmare.mp3"),
-          cover: require("../assets/musics/nightmare.jpg"),
-          isFav: false,
-        },
-        {
-          id: 3,
-          title: "A Little Piece of Heaven",
-          artist: 1,
-          url: require("../assets/musics/heaven.mp3"),
-          cover: require("../assets/musics/heaven.jpg"),
-          isFav: false,
-        },
-        {
-          id: 4,
-          title: "The Trooper",
-          artist: 2,
-          url: require("../assets/musics/trooper.mp3"),
-          cover: require("../assets/musics/trooper.jpg"),
-          isFav: false,
-        },
-        {
-          id: 5,
-          title: "Ghost Love Score - Live at Wacken",
-          artist: 3,
-          url: require("../assets/musics/ghost.mp3"),
-          cover: require("../assets/musics/ghost.jpg"),
-          isFav: false,
-        },
-        {
-          id: 6,
-          title: "Blue Orchid",
-          artist: 4,
-          url: require("../assets/musics/orchid.mp3"),
-          cover: require("../assets/musics/orchid.jpg"),
-          isFav: false,
-        },
-        {
-          id: 7,
-          title: "In the end",
-          artist: 5,
-          url: require("../assets/musics/end.mp3"),
-          cover: require("../assets/musics/end.jpg"),
-          isFav: false,
-        },
-      ],
-      artists: [
-        {
-          id: 1,
-          name: "Avenged Sevenfold",
-          informations: "",
-        },
-        {
-          id: 2,
-          name: "Iron Maiden",
-          informations: "",
-        },
-        {
-          id: 3,
-          name: "Nightwish",
-          informations: "",
-        },
-        {
-          id: 4,
-          name: "The Whites Stripes",
-          informations: "",
-        },
-        {
-          id: 5,
-          name: "Linkin Park",
-          informations: "",
-        },
-      ],
+      musics: musics,
+      artists: artists,
       currentFile: null,
       index: 0,
       isRandom: false,

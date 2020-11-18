@@ -1,0 +1,37 @@
+[debug] [2020-11-18T20:13:44.548Z] ----------------------------------------------------------------------
+[debug] [2020-11-18T20:13:44.551Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Benjamin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-11-18T20:13:44.552Z] CLI Version:   8.15.1
+[debug] [2020-11-18T20:13:44.552Z] Platform:      win32
+[debug] [2020-11-18T20:13:44.552Z] Node Version:  v14.15.0
+[debug] [2020-11-18T20:13:44.554Z] Time:          Wed Nov 18 2020 21:13:44 GMT+0100 (heure normale d’Europe centrale)
+[debug] [2020-11-18T20:13:44.554Z] ----------------------------------------------------------------------
+[debug] [2020-11-18T20:13:44.554Z] 
+[debug] [2020-11-18T20:13:44.574Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-11-18T20:13:44.575Z] > authorizing via signed-in user
+[debug] [2020-11-18T20:13:44.576Z] [iam] checking project songplaylist-f84f4 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-11-18T20:13:44.580Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-11-18T20:13:44.580Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-11-18T20:13:45.225Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","date":"Wed, 18 Nov 2020 20:13:45 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-11-18T20:13:45.237Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/songplaylist-f84f4:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-11-18T20:13:46.097Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 18 Nov 2020 20:13:45 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=667","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-11-18T20:13:46.102Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/songplaylist-f84f4  
+ 
+[debug] [2020-11-18T20:13:46.417Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 18 Nov 2020 20:13:46 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] 
+[info] === Deploying to 'songplaylist-f84f4'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2020-11-18T20:13:46.449Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/songplaylist-f84f4/versions  
+ {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2020-11-18T20:13:47.950Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 18 Nov 2020 20:13:47 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] i  hosting[songplaylist-f84f4]: beginning deploy... 
+[info] i  hosting[songplaylist-f84f4]: found 48 files in dist 
+[debug] [2020-11-18T20:13:50.196Z] [hosting] hash cache [ZGlzdA] stored for 48 files
+[debug] [2020-11-18T20:13:50.196Z] [hosting][hash queue][FINAL] {"max":2046,"min":53,"avg":310,"active":0,"complete":48,"success":48,"errored":0,"retried":0,"total":48,"elapsed":2112}
+[debug] [2020-11-18T20:13:50.197Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/songplaylist-f84f4/versions/7636f24b97c8a2fa:populateFiles  
+ <request body omitted>
+[debug] [2020-11-18T20:13:51.400Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 18 Nov 2020 20:13:51 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-11-18T20:13:51.412Z] [hosting][populate queue][FINAL] {"max":1208,"min":1208,"avg":1208,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1218}
+[debug] [2020-11-18T20:13:51.413Z] [hosting] uploads queued: 13
