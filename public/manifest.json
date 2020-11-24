@@ -1,0 +1,8 @@
+{
+    "name": "Spoteezer",
+    "short_name": "Spoteezer",
+    "start_url": "index.html",
+    "display": "standalone",
+    "theme_color": "green",
+    "background_color": "#2C2F33"
+}
