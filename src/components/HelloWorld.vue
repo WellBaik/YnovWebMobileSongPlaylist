@@ -23,6 +23,7 @@
         <v-row class="text-center">
           <Music
             :inputFile="currentFile"
+            :nextSong="nextSong"
             color="success"
             @musicEnded="next"
             @previousMusic="previous"
@@ -78,19 +79,21 @@
         <table style="width:100%; border-collapse: collapse">
           <thead>
             <tr>
-              <th class="bb"></th>
-              <th class="bb bl text-left">
+              <th class=""></th>
+              <th class="bb">
                 Titre
               </th>
-              <th class="bb bl text-left">
+              <th class="bb bl">
                 Artiste
               </th>
+              <th class=""></th>
+              <th class=""></th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td></td>
-              <td class="bl">
+              <td class="">
                 <input
                   style="background-color:white; width:90%; font-size:12px"
                   type="text"
@@ -108,7 +111,8 @@
                   @keyup="searchArtist"
                 />
               </td>
-              <td class="bl"></td>
+              <td class=""></td>
+              <td class=""></td>
             </tr>
             <tr v-for="item in musicsFiltered" :key="item.id">
               <td>
@@ -118,12 +122,12 @@
                   </v-icon>
                 </button>
               </td>
-              <td class="bl text-left" style="font-size:12px">
+              <td class="text-left" style="font-size:12px; padding:5px">
                 <span :class="item.isPlaying ? 'text-green' : 'text-white'">
                   {{ item.title }}
                 </span>
               </td>
-              <td class="bl text-left" style="font-size:12px">
+              <td class="bl text-left" style="font-size:12px; padding:5px">
                 <span :class="item.isPlaying ? 'text-green' : 'text-white'">
                   <router-link
                     :to="{ name: 'Artist', params: { id: item.artist } }"
@@ -131,7 +135,12 @@
                   </router-link>
                 </span>
               </td>
-              <td class="bl">
+              <td class="">
+                <button style="margin-right:5px;" @click="nextSong = item">
+                  <v-icon color="white"> mdi-bookmark-plus-outline </v-icon>
+                </button>
+              </td>
+              <td class="">
                 <button
                   style="margin-right:5px;"
                   @click="item.isFav = !item.isFav"
@@ -169,6 +178,7 @@ export default {
       sTitle: "",
       sArtist: "",
       dialog: false,
+      nextSong: null,
     };
   },
   created() {
@@ -187,13 +197,20 @@ export default {
     },
     next: function() {
       this.musics[this.index].isPlaying = false;
-      if (this.isRandom) {
-        this.index = Math.floor(Math.random() * Math.floor(this.musics.length));
+      if (this.nextSong !== null) {
+        this.playMusic(this.nextSong.id);
+        this.nextSong = null;
       } else {
-        if (this.index < this.musics.length - 1) {
-          this.index++;
+        if (this.isRandom) {
+          this.index = Math.floor(
+            Math.random() * Math.floor(this.musics.length)
+          );
         } else {
-          this.index = 0;
+          if (this.index < this.musics.length - 1) {
+            this.index++;
+          } else {
+            this.index = 0;
+          }
         }
       }
       this.loadMusic();

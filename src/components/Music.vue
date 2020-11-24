@@ -88,6 +88,9 @@
           .substr(3, 5)
       }}</v-col>
     </v-row>
+    <v-row v-if="nextToPlay !== null">
+      <v-col cols="12"> Prochaine musique : {{ nextToPlay.title }} </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -96,6 +99,7 @@ export default {
   data() {
     return {
       inputFileUpdated: this.inputFile,
+      nextToPlay: this.nextSong,
       player: null,
       audio: null,
       isPlaying: false,
@@ -106,6 +110,7 @@ export default {
   },
   props: {
     inputFile: Object,
+    nextSong: Object,
   },
   created() {
     this.audio = this.inputFileUpdated.url;
@@ -165,6 +170,9 @@ export default {
       this.inputFileUpdated = val;
       this.audio = this.inputFileUpdated.url;
       this.$refs.player.addEventListener("canplaythrough", this.play, false);
+    },
+    nextSong: function(val) {
+      this.nextToPlay = val;
     },
   },
 };
