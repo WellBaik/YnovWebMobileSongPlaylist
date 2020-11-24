@@ -329,10 +329,6 @@ export default {
 .link a {
   color: green;
 }
-li {
-  list-style-type: none;
-  margin-bottom: 10px;
-}
 .text-green {
   color: green;
 }
