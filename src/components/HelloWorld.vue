@@ -39,22 +39,42 @@
         <v-card-title>
           <span class="text-center" style="width:100%">Liste de lecture</span>
           <span style="width:100%; align-items:right">
-            <button @click="randomPlaying">
-              <v-icon :color="isRandom ? 'green' : 'white'"
-                >mdi-strategy</v-icon
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <button @click="randomPlaying" v-bind="attrs" v-on="on">
+                  <v-icon :color="isRandom ? 'green' : 'white'"
+                    >mdi-strategy</v-icon
+                  >
+                </button></template
               >
-            </button>
-            <button @click="normalPlaying">
-              <v-icon :color="isRandom ? 'white' : 'green'"
-                >mdi-playlist-play</v-icon
-              >
-            </button>
+              <span>Lecture aléatoire</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <button @click="normalPlaying" v-bind="attrs" v-on="on">
+                  <v-icon :color="isRandom ? 'white' : 'green'"
+                    >mdi-playlist-play</v-icon
+                  >
+                </button>
+              </template>
+              <span>Lecture normale</span>
+            </v-tooltip>
+
             <button>
               <v-dialog v-model="dialog" persistent max-width="290">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn v-bind="attrs" v-on="on" icon>
-                    <v-icon color="green">mdi-heart</v-icon>
-                  </v-btn>
+                <template #activator="{ on:dialog }">
+                  <v-tooltip top>
+                    <template #activator="{on:tooltip}">
+                      <v-btn
+                        v-bind="attrs"
+                        v-on="{ ...dialog, ...tooltip }"
+                        icon
+                      >
+                        <v-icon color="green">mdi-heart</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Chansons favorites</span>
+                  </v-tooltip>
                 </template>
                 <v-card>
                   <v-card-title class="headline">
@@ -116,11 +136,21 @@
             </tr>
             <tr v-for="item in musicsFiltered" :key="item.id">
               <td>
-                <button style="margin-right:5px;" @click="playMusic(item.id)">
-                  <v-icon color="white">
-                    mdi-play-circle-outline
-                  </v-icon>
-                </button>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <button
+                      style="margin-right:5px;"
+                      @click="playMusic(item.id)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon color="white">
+                        mdi-play-circle-outline
+                      </v-icon>
+                    </button>
+                  </template>
+                  <span>Jouer cette musique</span>
+                </v-tooltip>
               </td>
               <td class="text-left" style="font-size:12px; padding:5px">
                 <span :class="item.isPlaying ? 'text-green' : 'text-white'">
@@ -136,19 +166,37 @@
                 </span>
               </td>
               <td class="">
-                <button style="margin-right:5px;" @click="nextSong = item">
-                  <v-icon color="white"> mdi-bookmark-plus-outline </v-icon>
-                </button>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <button
+                      style="margin-right:5px;"
+                      @click="nextSong = item"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon color="white"> mdi-bookmark-plus-outline </v-icon>
+                    </button>
+                  </template>
+                  <span>Prochaine musique à jouer</span>
+                </v-tooltip>
               </td>
               <td class="">
-                <button
-                  style="margin-right:5px;"
-                  @click="item.isFav = !item.isFav"
-                >
-                  <v-icon :color="item.isFav ? 'green' : 'white'">
-                    mdi-heart
-                  </v-icon>
-                </button>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <button
+                      style="margin-right:5px;"
+                      @click="item.isFav = !item.isFav"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon :color="item.isFav ? 'green' : 'white'">
+                        mdi-heart
+                      </v-icon>
+                    </button> </template
+                  ><span>
+                    Chanson favorite
+                  </span>
+                </v-tooltip>
               </td>
             </tr>
           </tbody>
