@@ -262,6 +262,7 @@ export default {
     loadMusic: function() {
       this.currentFile = this.musics[this.index];
       this.musics[this.index].isPlaying = true;
+      navigator.vibrate([500]);
     },
     playMusic: function(idToFind) {
       this.musics[this.index].isPlaying = false;
