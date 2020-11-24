@@ -1,41 +1,24 @@
 <template>
   <div style="width:100%">
     <v-row class="text-center">
-      <knob-control :min="0" :max="11" v-model="volume"></knob-control>
+      <v-col cols="12">
+        <knob-control
+          :min="0"
+          :max="100"
+          v-model="volume"
+          @change="changeVolume"
+          primary-color="green"
+          text-color="green"
+        ></knob-control>
 
-      <v-col cols="2"></v-col>
-      <v-col cols="1">
-        <button @click="volMinus">
-          <v-icon color="white">
-            mdi-volume-low
-          </v-icon>
-        </button>
-      </v-col>
-      <v-col cols="6"
-        ><audio
+        <audio
           id="player"
           ref="player"
           :src="audio"
           preload="auto"
           @ended="musicEnded"
         ></audio>
-        <v-slider
-          v-model="volume"
-          @change="changeVolume"
-          min="0"
-          max="1"
-          step="0.01"
-        >
-        </v-slider
-      ></v-col>
-      <v-col cols="1">
-        <button @click="volPlus">
-          <v-icon color="white">
-            mdi-volume-high
-          </v-icon>
-        </button></v-col
-      >
-      <v-col cols="1"></v-col>
+      </v-col>
     </v-row>
     <v-row class="text-center">
       <v-col cols="4">
@@ -95,6 +78,8 @@
 </template>
 
 <script>
+import KnobControl from "vue-knob-control";
+
 export default {
   data() {
     return {
@@ -103,7 +88,7 @@ export default {
       player: null,
       audio: null,
       isPlaying: false,
-      volume: 0.05,
+      volume: 5,
       timestamp: 0,
       songDuration: 0,
     };
@@ -135,7 +120,7 @@ export default {
       this.$refs.player.currentTime = this.timestamp;
     },
     changeVolume: function() {
-      this.$refs.player.volume = this.volume;
+      this.$refs.player.volume = this.volume / 100;
     },
     volMinus: function() {
       if (this.volume - 0.1 >= 0) {
@@ -174,6 +159,12 @@ export default {
     nextSong: function(val) {
       this.nextToPlay = val;
     },
+    volume: function() {
+      this.changeVolume();
+    },
+  },
+  components: {
+    KnobControl: KnobControl,
   },
 };
 </script>
