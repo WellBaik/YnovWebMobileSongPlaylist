@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <h1>Spoteezer</h1>
+        <h1 style="color:green">Spoteezer</h1>
       </v-col>
     </v-row>
     <v-row>
@@ -154,7 +154,7 @@
                 </span>
               </td>
               <td class="bl text-left" style="font-size:12px; padding:5px">
-                <span :class="item.isPlaying ? 'text-green' : 'text-white'">
+                <span class="link">
                   <router-link
                     :to="{ name: 'Artist', params: { id: item.artist } }"
                     >{{ getArtist(item.artist).name }}
@@ -326,6 +326,9 @@ export default {
 };
 </script>
 <style scoped>
+.link a {
+  color: green;
+}
 li {
   list-style-type: none;
   margin-bottom: 10px;

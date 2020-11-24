@@ -62,6 +62,8 @@
           v-model="timestamp"
           @change="moveTimestamp"
           :max="songDuration"
+          color="green"
+          track-color="white"
         ></v-slider>
       </v-col>
       <v-col cols="3" style="text-align:left;">{{
