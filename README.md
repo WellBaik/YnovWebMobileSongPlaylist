@@ -2,6 +2,7 @@
 
 ## Features
 
+- Your phone vibrate at the end of a song
 - Shake your phone to skip the song
 - You can choose the next played song
 - Add a song to your favorites
