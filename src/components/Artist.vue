@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { musics, artists } from "../assets/variables.js";
+import { musics, artists } from "../../public/assets/variables.js";
 
 export default {
   name: "Artist",

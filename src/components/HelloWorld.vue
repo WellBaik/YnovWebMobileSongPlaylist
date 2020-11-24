@@ -65,11 +65,7 @@
                 <template #activator="{ on:dialog }">
                   <v-tooltip top>
                     <template #activator="{on:tooltip}">
-                      <v-btn
-                        v-bind="attrs"
-                        v-on="{ ...dialog, ...tooltip }"
-                        icon
-                      >
+                      <v-btn v-on="{ ...dialog, ...tooltip }" icon>
                         <v-icon color="green">mdi-heart</v-icon>
                       </v-btn>
                     </template>
@@ -208,7 +204,7 @@
 
 <script>
 import Music from "./Music";
-import { musics, artists } from "../assets/variables.js";
+import { musics, artists } from "../../public/assets/variables.js";
 
 export default {
   name: "HelloWorld",
