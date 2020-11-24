@@ -43,7 +43,6 @@ const STATIC_DATAS = [
   "/img/icons/favicon-16x16.png",
   "/img/icons/favicon-32x32.png",
 ];
-console.log("test");
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("service-worker.js")

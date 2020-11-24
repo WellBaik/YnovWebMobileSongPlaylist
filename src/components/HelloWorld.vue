@@ -205,7 +205,12 @@
 <script>
 import Music from "./Music";
 import { musics, artists } from "../../public/assets/variables.js";
-
+var Shake = require("shake.js");
+var myShakeEvent = new Shake({
+  threshold: 15, // optional shake strength threshold
+  timeout: 1000, // optional, determines the frequency of event generation
+});
+myShakeEvent.start();
 export default {
   name: "HelloWorld",
   props: {
@@ -228,6 +233,7 @@ export default {
   created() {
     this.loadMusic();
     this.musicsFiltered = this.musics;
+    window.addEventListener("shake", this.shakeEventDidOccur, false);
   },
   methods: {
     previous: function() {
@@ -241,6 +247,7 @@ export default {
     },
     next: function() {
       this.musics[this.index].isPlaying = false;
+      alert("test");
       if (this.nextSong !== null) {
         this.playMusic(this.nextSong.id);
         this.nextSong = null;
@@ -310,6 +317,9 @@ export default {
       } else {
         this.musicsFiltered = this.musics;
       }
+    },
+    shakeEventDidOccur: function() {
+      alert("shake");
     },
   },
   components: {
