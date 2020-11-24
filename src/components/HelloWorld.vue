@@ -104,6 +104,7 @@
               </th>
               <th class=""></th>
               <th class=""></th>
+              <th class=""></th>
             </tr>
           </thead>
           <tbody>
@@ -127,6 +128,7 @@
                   @keyup="searchArtist"
                 />
               </td>
+              <td class=""></td>
               <td class=""></td>
               <td class=""></td>
             </tr>
@@ -191,6 +193,24 @@
                     </button> </template
                   ><span>
                     Chanson favorite
+                  </span>
+                </v-tooltip>
+              </td>
+              <td class="">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <button
+                      style="margin-right:5px;"
+                      @click="buy(item)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon color="white">
+                        mdi-cart
+                      </v-icon>
+                    </button> </template
+                  ><span>
+                    Acheter cette musique
                   </span>
                 </v-tooltip>
               </td>
@@ -316,6 +336,53 @@ export default {
       } else {
         this.musicsFiltered = this.musics;
       }
+    },
+    buy: function(item) {
+      console.log(item);
+      var supportedInstruments = [
+        {
+          supportedMethods: "basic-card",
+          data: {
+            supportedNetworks: [
+              "visa",
+              "mastercard",
+              "amex",
+              "jcb",
+              "diners",
+              "discover",
+              "mir",
+              "unionpay",
+            ],
+          },
+        },
+      ];
+      var details = {
+        total: {
+          label: "Donation",
+          amount: { currency: "USD", value: "65.00" },
+        },
+        displayItems: [
+          {
+            label: "Original donation amount",
+            amount: { currency: "USD", value: "65.00" },
+          },
+        ],
+        shippingOptions: [
+          {
+            id: "standard",
+            label: "Standard shipping",
+            amount: { currency: "USD", value: "0.00" },
+            selected: true,
+          },
+        ],
+      };
+      var options = { requestShipping: true };
+
+      var paymentRequest = new PaymentRequest(supportedInstruments, details, [
+        options,
+      ]);
+
+      paymentRequest.show();
     },
   },
   components: {
