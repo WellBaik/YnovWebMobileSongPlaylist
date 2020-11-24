@@ -233,7 +233,7 @@ export default {
   created() {
     this.loadMusic();
     this.musicsFiltered = this.musics;
-    window.addEventListener("shake", this.shakeEventDidOccur, false);
+    window.addEventListener("shake", this.next, false);
   },
   methods: {
     previous: function() {
@@ -247,7 +247,6 @@ export default {
     },
     next: function() {
       this.musics[this.index].isPlaying = false;
-      alert("test");
       if (this.nextSong !== null) {
         this.playMusic(this.nextSong.id);
         this.nextSong = null;
@@ -317,9 +316,6 @@ export default {
       } else {
         this.musicsFiltered = this.musics;
       }
-    },
-    shakeEventDidOccur: function() {
-      alert("shake");
     },
   },
   components: {
