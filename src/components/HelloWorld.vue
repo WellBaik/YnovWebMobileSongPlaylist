@@ -338,7 +338,6 @@ export default {
       }
     },
     buy: function(item) {
-      console.log(item);
       var supportedInstruments = [
         {
           supportedMethods: "basic-card",
@@ -358,20 +357,20 @@ export default {
       ];
       var details = {
         total: {
-          label: "Donation",
-          amount: { currency: "USD", value: "65.00" },
+          label: "Total",
+          amount: { currency: "EUR", value: "65.00" },
         },
         displayItems: [
           {
-            label: "Original donation amount",
-            amount: { currency: "USD", value: "65.00" },
+            label: item.title,
+            amount: { currency: "EUR", value: "65.00" },
           },
         ],
         shippingOptions: [
           {
             id: "standard",
-            label: "Standard shipping",
-            amount: { currency: "USD", value: "0.00" },
+            label: "Livraison",
+            amount: { currency: "EUR", value: "0.00" },
             selected: true,
           },
         ],
@@ -381,8 +380,21 @@ export default {
       var paymentRequest = new PaymentRequest(supportedInstruments, details, [
         options,
       ]);
-
-      paymentRequest.show();
+      try {
+        paymentRequest
+          .show()
+          .then(function(request) {
+            request.complete("success").then(function() {
+              alert("Paiement accepté, vous allez télecharger la musique");
+              downloadURI(item.url, item.title);
+            });
+          })
+          .catch(function(err) {
+            alert(err);
+          });
+      } catch (error) {
+        alert(error);
+      }
     },
   },
   components: {
@@ -391,6 +403,14 @@ export default {
   computed: {},
   watch: {},
 };
+function downloadURI(uri, name) {
+  var link = document.createElement("a");
+  link.download = name;
+  link.href = uri;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 </script>
 <style scoped>
 .link a {
