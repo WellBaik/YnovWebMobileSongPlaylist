@@ -8,6 +8,7 @@
 - You can choose the next played song
 - Add a song to your favorites
 - Search your song by title or artist
+- You can buy a song and direct download it !
 
 ## Project setup
 
