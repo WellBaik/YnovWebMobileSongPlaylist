@@ -1,4 +1,4 @@
-var cacheName = "cache1.3";
+var cacheName = "cache1.4";
 const STATIC_DATAS = [
   "/",
   "/favicon.ico",
@@ -6,7 +6,6 @@ const STATIC_DATAS = [
   "/assets/",
   "/assets/logo.png",
   "/assets/logo.svg",
-  "/assets/variables.js",
   "/assets/artists/",
   "/assets/artists/a7x.jpg",
   "/assets/artists/iron.jpg",

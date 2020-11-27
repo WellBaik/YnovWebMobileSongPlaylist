@@ -159,7 +159,7 @@
                 <span class="link">
                   <router-link
                     :to="{ name: 'Artist', params: { id: item.artist } }"
-                    >{{ getArtist(item.artist).name }}
+                    >{{ getArtistById(item.artist).name }}
                   </router-link>
                 </span>
               </td>
@@ -224,7 +224,7 @@
 
 <script>
 import Music from "./Music";
-import { musics, artists } from "../../public/assets/variables.js";
+import { mapGetters } from "vuex";
 var Shake = require("shake.js");
 var myShakeEvent = new Shake({
   threshold: 15, // optional shake strength threshold
@@ -238,8 +238,6 @@ export default {
   },
   data: function() {
     return {
-      musics: musics,
-      artists: artists,
       currentFile: null,
       index: 0,
       isRandom: false,
@@ -302,9 +300,6 @@ export default {
     randomPlaying: function() {
       this.isRandom = true;
     },
-    getArtist: function(artistId) {
-      return this.artists.find((x) => x.id === artistId);
-    },
     searchTitle: function() {
       this.musicsFiltered = [];
       if (this.sTitle.length > 0) {
@@ -326,7 +321,7 @@ export default {
       if (this.sArtist.length > 0) {
         for (var i = 0; i < this.musics.length; i++) {
           if (
-            this.getArtist(this.musics[i].artist)
+            this.getArtistById(this.musics[i].artist)
               .name.toUpperCase()
               .includes(this.sArtist.toUpperCase())
           ) {
@@ -400,7 +395,15 @@ export default {
   components: {
     Music,
   },
-  computed: {},
+  computed: {
+    musics() {
+      return this.$store.state.musics;
+    },
+    artists() {
+      return this.$store.state.artists;
+    },
+    ...mapGetters(["getArtistById"]),
+  },
   watch: {},
 };
 function downloadURI(uri, name) {

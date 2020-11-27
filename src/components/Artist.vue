@@ -18,6 +18,12 @@
           <p v-for="item in artist.informations" :key="item">
             {{ item }}
           </p>
+          <p>Liste des musiques disponibles :</p>
+          <ul>
+            <li v-for="music in musics" :key="music.id">
+              {{ music.title }}
+            </li>
+          </ul>
         </v-card-text>
       </v-card>
     </v-row>
@@ -25,31 +31,24 @@
 </template>
 
 <script>
-import { musics, artists } from "../../public/assets/variables.js";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Artist",
   props: {},
   data: function() {
-    return {
-      musics: musics,
-      artists: artists,
-      artist: null,
-    };
+    return {};
   },
-  methods: {
-    getArtist: function(artistId) {
-      console.log(artistId);
-      return this.artists.find((x) => x.id === artistId);
+  methods: { ...mapGetters[("getArtistById", "getMusicByArtistId")] },
+  components: {},
+  computed: {
+    artist() {
+      return this.$store.getters.getArtistById(this.$route.params.id);
+    },
+    musics() {
+      return this.$store.getters.getMusicByArtistId(this.$route.params.id);
     },
   },
-  mounted() {
-    console.log(this.artists);
-    this.artist = this.getArtist(this.$route.params.id);
-    console.log(this.$route.params.id);
-  },
-  components: {},
-  computed: {},
   watch: {},
 };
 </script>
