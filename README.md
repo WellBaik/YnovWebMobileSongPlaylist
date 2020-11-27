@@ -1,5 +1,7 @@
 # Spoteezer
 
+Projet de Benjamin FERIE pour le module Web Mobile d'Ynov
+
 ## Features
 
 - You can change volume with a smooth knob !
